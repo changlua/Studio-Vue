@@ -1,4 +1,11 @@
-[toc]
+<p align="center">
+	<img alt="logo" style="width:80px;height:80px" src="document/images/logo.png">
+</p>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Studio V1.0.0</h1>
+<p align="center">
+	<a href="https://github.com/changlua/studio-vue/blob/master/LICENSE"><img src="document/images/head/MIT.svg"></a>
+</p>
+
 
 
 
@@ -12,7 +19,10 @@
 
 该工作室系统主要面向校园工作室，可供个人及工作室团队学习使用。
 
-- 在此感谢 [RUOYI](https://gitee.com/y_project/RuoYi) 提供的后台管理系统模板以及后台路由、权限管理。【项目功能引用了若依的角色、菜单管理】
+**鸣谢**：
+
+- 感谢 [RUOYI](https://gitee.com/y_project/RuoYi) 提供的后台管理系统模板以及后台路由、权限管理。【项目功能引用了若依的角色、菜单管理】
+- 感谢项目logo：[来源网站地址](https://www.flaticon.com/search?word=deer)、作者[Hery Mery](https://www.flaticon.com/authors/hery-mery)
 
 # 项目介绍
 ## 项目演示
@@ -21,57 +31,58 @@
 
 <table>
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206111705609.png"/></td>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206111706014.png"/></td>
+        <td><img src="document/images/offical-1.png"/></td>
+        <td><img src="document/images/offical-2.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206111706767.png"/></td>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206111706608.png"/></td>
+        <td><img src="document/images/offical-3.png"/></td>
+        <td><img src="document/images/offical-4.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206111707514.png"/></td>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206111707177.png"/></td>
+        <td><img src="document/images/offical-5.png"/></td>
+        <td><img src="document/images/offical-6.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206111707953.png"/></td>
+        <td><img src="document/images/offical-7.png"/></td>
     </tr>	 
 </table>
+
+
 
 ### 后台管理系统
 
 <table>
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121956264.png"/></td>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121957666.png"/></td>
+        <td><img src="document/images/bg-1.png"/></td>
+        <td><img src="document/images/bg-2.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121958796.png"/></td>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121958543.png"/></td>
+        <td><img src="document/images/bg-3.png"/></td>
+        <td><img src="document/images/bg-4.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121959471.png"/></td>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121959682.png"/></td>
+        <td><img src="document/images/bg-5.png"/></td>
+        <td><img src="document/images/bg-6.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121959942.png"/></td>
-    <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206121959230.png"/></td>
+        <td><img src="document/images/bg-7.png"/></td>
+    <td><img src="document/images/bg-8.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122001954.png"/></td>
-    <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122001946.png"/></td>
+        <td><img src="document/images/bg-9.png"/></td>
+    <td><img src="document/images/bg-10.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122001292.png"/></td>
-    <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122002359.png"/></td>
+        <td><img src="document/images/bg-11.png"/></td>
+    <td><img src="document/images/bg-12.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122002898.png"/></td>
-    <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122002783.png"/></td>
+        <td><img src="document/images/bg-13.png"/></td>
+    <td><img src="document/images/bg-14.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122002129.png"/></td>
+        <td><img src="document/images/bg-15.png"/></td>
     </tr>	 
-
 </table>
 
 ## 技术选型
@@ -113,7 +124,7 @@
 
 ### 开发进度
 
-![image-20220610224906634](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206102249708.png)    
+![image-20220610224906634](document/images/development-pogress.png)    
 
 # 内置功能
 
@@ -164,11 +175,11 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 数据库表关系设计：
 
-![image-20220612200752632](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122007702.png)  
+![image-20220612200752632](document/images/table-rel.png)  
 
 数据库表字段设计：
 
-![image-20220612200813685](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206122008779.png)  
+![image-20220612200813685](document/images/table-filed.png)  
 
 # 环境搭建
 
