@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.ZfMUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="MUserVo" id="SysUserResult">
+        <id property="userId"    column="user_id"    />
+        <result property="email"    column="email"    />
+        <result property="phonenumber"    column="phonenumber"    />
+        <result property="sex"    column="sex"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="realName"    column="real_name"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="gradeId"    column="grade_id"    />
+        <result property="gradeNum"    column="grade_num"    />
+        <result property="roleName"    column="role_name"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <!--  -->
+    <resultMap type="ShowUserVo" id="ShowUserVoResult">
+        <result property="realName"    column="real_name"    />
+        <result property="gradeNum"    column="grade_num"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="roleName"    column="role_name"    />
+        <result property="perImg"    column="per_img"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <!--  查询用户的基本信息：真实姓名、图片、角色名、年级、专业名  -->
+    <sql id="selectShowUserVo">
+        SELECT
+            t.real_name, t.description, t.per_img,
+            GROUP_CONCAT( t2.role_name ) AS role_name,
+            t3.grade_num,
+            t4.major_name
+        from sys_user t
+                 left join sys_user_role t1 on t1.user_id = t.user_id
+                 LEFT JOIN sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表取得角色名称
+                 left join zf_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
+                 left join zf_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+    </sql>
+
+    <select id="selectShowUserVoList" resultMap="ShowUserVoResult">
+        <include refid="selectShowUserVo"/>
+        WHERE t.user_id != 1 and t.status = 0
+        GROUP BY
+            t.user_id
+        order by t3.grade_num desc
+    </select>
+
+    <select id="selectRaceUsersByRaceId" resultMap="ShowUserVoResult">
+        <include refid="selectShowUserVo"/>
+        WHERE FIND_IN_SET(t.user_id, (SELECT race_members FROM `zf_race` r WHERE r.race_id = #{raceId}))
+        GROUP BY
+        t.user_id
+        order by t3.grade_num desc
+    </select>
+
+
+    <sql id="selectSysUserVo">
+        SELECT
+            t.user_id, t.user_name, t.real_name, t.grade_id, t.major_id, t.phonenumber, t.sex, t.email, t.status, t.create_time,
+            GROUP_CONCAT( t2.role_name ) AS role_name,
+            CONCAT(t3.grade_num, '级') as grade_num,
+            t4.major_name
+        from sys_user t
+                 left join sys_user_role t1 on t1.user_id = t.user_id
+                 LEFT JOIN sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表取得角色名称
+                 left join zf_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
+                 left join zf_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+    </sql>
+
+    <select id="selectSysUserList" parameterType="MUserVo" resultMap="SysUserResult">
+        <include refid="selectSysUserVo"/>
+        <where>
+            -- 忽略管理员账户
+            t.user_id != 1
+            <if test="sex != null  and sex != ''"> and t.sex = #{sex}</if>
+            <if test="status != null  and status != ''"> and t.status = #{status}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and t.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="realName != null  and realName != ''"> and t.real_name like concat('%', #{realName}, '%')</if>
+            <if test="majorId != null "> and t.major_id = #{majorId}</if>
+            <if test="gradeId != null "> and t.grade_id = #{gradeId}</if>
+            <if test="roleIds != null  and roleIds != ''"> and FIND_IN_SET(t2.role_id, #{roleIds})</if>  -- 主要用于筛选角色
+        </where>
+        GROUP BY
+            t.user_id
+        order by t.create_time desc
+    </select>
+
+    <select id="selectSysUserIdAndRealName" resultMap="SysUserResult">
+        SELECT
+            user_id, real_name
+        from sys_user
+    </select>
+
+    <select id="selectSysUserByUserIds" resultMap="SysUserResult">
+        SELECT
+            t.user_id,t.real_name,
+            CONCAT(t1.grade_num,'级') as grade_num, t1.grade_id ,
+            t2.major_name,t2.major_id
+        FROM
+            sys_user t
+                LEFT JOIN zf_grade t1 ON t1.grade_id = t.grade_id -- 左联年纪表取得年级
+                LEFT JOIN zf_major t2 ON t2.major_id = t.major_id -- 左联专业表取得专业
+        WHERE t.user_id in
+            <foreach item="userId" collection="array" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+    </select>
+
+
+    <select id="selectSysUserByUserId" parameterType="Long" resultMap="SysUserResult">
+        SELECT
+            user_id, real_name, grade_id, major_id, sex
+        from sys_user
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateStatusByUserId">
+        update sys_user
+        set status = #{status}
+        where user_id = #{userId}
+    </update>
+
+    <update id="resetPwdByUserId">
+        update sys_user
+        set password = #{password}
+        where user_id in
+            <foreach item="userId" collection="targetUserIds" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+    </update>
+
+</mapper>

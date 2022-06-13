@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.ZfThinkMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ZfThinkModelResult" type="com.changlu.system.pojo.ZfThinkModel">
+        <id column="think_id" property="thinkId" />
+        <result column="think_title" property="thinkTitle" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+
+    <sql id="selectZfThinkModelVo">
+        select think_id, think_title, content, create_time, update_time, user_id from zf_think
+    </sql>
+
+    <select id="selectZfThinkModelList" parameterType="ZfThinkModel" resultMap="ZfThinkModelResult">
+        <include refid="selectZfThinkModelVo"/>
+        <where>
+            <if test="thinkTitle != null  and thinkTitle != ''"> and think_title like concat('%', #{thinkTitle}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectZfThinkModelListByUserId" parameterType="ZfThinkModel" resultMap="ZfThinkModelResult">
+        <include refid="selectZfThinkModelVo"/>
+        <where>
+            user_id = #{userId}
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="thinkTitle != null  and thinkTitle != ''"> and think_title like concat('%', #{thinkTitle}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectZfThinkModelByThinkId" parameterType="Long" resultMap="ZfThinkModelResult">
+        <include refid="selectZfThinkModelVo"/>
+        where think_id = #{thinkId}
+    </select>
+
+    <insert id="insertZfThinkModel" parameterType="ZfThinkModel" useGeneratedKeys="true" keyProperty="thinkId">
+        insert into zf_think
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="thinkTitle != null and thinkTitle != ''">think_title,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="userId != null">user_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="thinkTitle != null and thinkTitle != ''">#{thinkTitle},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="userId != null">#{userId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateZfThinkModel" parameterType="ZfThinkModel">
+        update zf_think
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="thinkTitle != null and thinkTitle != ''">think_title = #{thinkTitle},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where think_id = #{thinkId}
+    </update>
+
+    <delete id="deleteZfThinkModelByThinkIds" parameterType="String">
+        delete from zf_think where think_id in
+        <foreach item="thinkId" collection="array" open="(" separator="," close=")">
+            #{thinkId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteZfThinkModelByUserId" parameterType="Long">
+        delete from zf_think
+        where user_id = #{userId}
+    </delete>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.ZfMCcieMapper">
+
+    <resultMap type="MCcieVo" id="MCcieVoResult">
+        <result property="ccieId"    column="ccie_id"    />
+        <result property="ccieName"    column="ccie_name"    />
+        <result property="ccieImg"    column="ccie_img"    />
+        <result property="ccciGetTime"    column="ccci_get_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="realName"    column="real_name"    />
+        <result property="gradeNum"    column="grade_num"    />
+        <result property="majorName"    column="major_name"    />
+    </resultMap>
+
+    <sql id="selectZfCcieModelVo">
+        SELECT
+            t.ccie_id, t.ccie_name, t.ccie_img, t.ccci_get_time,
+            t1.real_name,
+            t2.grade_num, t2.grade_id,
+            t3.major_name, t3.major_id
+        FROM
+            zf_ccie t
+            LEFT JOIN sys_user t1 ON t.user_id = t1.user_id
+            LEFT JOIN zf_grade t2 ON t2.grade_id = t1.grade_id
+            LEFT JOIN zf_major t3 ON t3.major_id = t1.major_id
+    </sql>
+
+    <select id="selectZfCcieModelList" parameterType="MCcieVo" resultMap="MCcieVoResult">
+        <include refid="selectZfCcieModelVo"/>
+        <where>
+            <if test="ccieName != null  and ccieName != ''"> and t.ccie_name like concat('%', #{ccieName}, '%')</if>
+            <if test="realName != null  and realName != ''"> and t1.real_name like concat('%', #{realName}, '%')</if>
+            <if test="gradeId != null "> and t2.grade_id = #{gradeId}</if>
+            <if test="majorId != null "> and t3.major_id = #{majorId}</if>
+            <if test="params.beginCcciGetTime != null and params.beginCcciGetTime != '' and params.endCcciGetTime != null and params.endCcciGetTime != ''"> and ccci_get_time between #{params.beginCcciGetTime} and #{params.endCcciGetTime}</if>
+        </where>
+        ORDER BY
+            t.ccci_get_time DESC
+    </select>
+
+
+</mapper>

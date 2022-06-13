@@ -1,0 +1,38 @@
+server:
+  port: 8999
+
+spring:
+  # 服务模块
+  profiles:
+    active: dev
+  # 文件上传
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 200MB
+  # 解决SpringFox3的依赖报错：Springfox使用的路径匹配是基于AntPathMatcher的
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+#控制台打印sql(默认不会有打印sql语句)
+mybatis-plus:
+  mapper-locations: classpath*:com/changlu/mapper/*.xml  # 指定xml路径， classpath：表示只扫描当前模块下的mapper文件，classpath*即所有路径下
+  type-aliases-package: com.changlu  #指定实体类路径
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+# 长路自定义配置项
+zf:
+  resetPassword: 123456   # 重置密码
+  register:
+    invitationCode: EMb*Sy6  # 工作室注册邀请码
+
+

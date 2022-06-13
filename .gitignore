@@ -1,0 +1,15 @@
+# vue
+node_modules/
+
+# java
+.idea/
+target/
+out/
+
+.mvn/
+*.iml
+*.ipr
+*.iws
+
+# 本地测试的yml文件
+application-localdev.yml

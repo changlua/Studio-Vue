@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.ZfResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.changlu.system.pojo.ZfResourceModel">
+        <id column="res_id" property="resId" />
+        <result column="res_url" property="resUrl" />
+        <result column="res_flag" property="resFlag" />
+        <result column="res_name" property="resName" />
+        <result column="create_time" property="createTime" />
+        <result column="table_id" property="tableId" />
+    </resultMap>
+
+    <delete id="deleteResources" >
+        DELETE
+        FROM
+            zf_resource
+        WHERE
+            res_flag = #{resFlag}
+          AND
+            table_id in
+            <foreach item="tableId" collection="tableIds" open="(" separator="," close=")">
+                #{tableId}
+            </foreach>
+    </delete>
+
+</mapper>

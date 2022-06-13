@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.ZfCcieMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ZfCcieResult" type="com.changlu.system.pojo.ZfCcieModel">
+        <result property="ccieId"    column="ccie_id"    />
+        <result property="ccieName"    column="ccie_name"    />
+        <result property="ccieImg"    column="ccie_img"    />
+        <result property="ccciGetTime"    column="ccci_get_time"    />
+        <result property="ccieThink"    column="ccie_think"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <!-- 查询的vo对象   -->
+    <sql id="selectZfCcieVo">
+        select ccie_id, ccie_name, ccie_img, ccci_get_time, ccie_think, user_id from zf_ccie
+    </sql>
+
+    <!--  列表查询  -->
+    <select id="selectZfCcieList" parameterType="ZfCcieModel" resultMap="ZfCcieResult">
+        <include refid="selectZfCcieVo"/>
+        <where>
+            <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
+            <if test="params.beginCcciGetTime != null and params.beginCcciGetTime != '' and params.endCcciGetTime != null and params.endCcciGetTime != ''"> and ccci_get_time between #{params.beginCcciGetTime} and #{params.endCcciGetTime}</if>
+        </where>
+    </select>
+
+    <!--  根据用户id进行列表查询  -->
+    <select id="selectZfCcieListByUserId" parameterType="ZfCcieModel" resultMap="ZfCcieResult">
+        <include refid="selectZfCcieVo"/>
+        <where>
+            user_id = #{userId}
+            <if test="ccieName != null  and ccieName != ''"> and ccie_name like concat('%', #{ccieName}, '%')</if>
+            <if test="params.beginCcciGetTime != null and params.beginCcciGetTime != '' and params.endCcciGetTime != null and params.endCcciGetTime != ''"> and ccci_get_time between #{params.beginCcciGetTime} and #{params.endCcciGetTime}</if>
+
+        </where>
+    </select>
+
+    <!--  详细查询  -->
+    <select id="selectZfCcieByCcieId" parameterType="Long" resultMap="ZfCcieResult">
+        <include refid="selectZfCcieVo"/>
+        where ccie_id = #{ccieId}
+    </select>
+
+    <!--  新增证书  -->
+    <insert id="insertZfCcie" parameterType="ZfCcieModel">
+        insert into zf_ccie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ccieId != null">ccie_id,</if>
+            <if test="ccieName != null and ccieName != ''">ccie_name,</if>
+            <if test="ccieImg != null">ccie_img,</if>
+            <if test="ccciGetTime != null">ccci_get_time,</if>
+            <if test="ccieThink != null">ccie_think,</if>
+            <if test="userId != null">user_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ccieId != null">#{ccieId},</if>
+            <if test="ccieName != null and ccieName != ''">#{ccieName},</if>
+            <if test="ccieImg != null">#{ccieImg},</if>
+            <if test="ccciGetTime != null">#{ccciGetTime},</if>
+            <if test="ccieThink != null">#{ccieThink},</if>
+            <if test="userId != null">#{userId},</if>
+        </trim>
+    </insert>
+
+    <!--  修改证书  -->
+    <update id="updateZfCcie" parameterType="ZfCcieModel">
+        update zf_ccie
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ccieName != null and ccieName != ''">ccie_name = #{ccieName},</if>
+            <if test="ccieImg != null">ccie_img = #{ccieImg},</if>
+            <if test="ccciGetTime != null">ccci_get_time = #{ccciGetTime},</if>
+            <if test="ccieThink != null">ccie_think = #{ccieThink},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where ccie_id = #{ccieId}
+    </update>
+
+    <delete id="deleteZfCcieByCcieId" parameterType="Long">
+        delete from zf_ccie where ccie_id = #{ccieId}
+    </delete>
+
+    <delete id="deleteZfCcieByCcieIds" parameterType="String">
+        delete from zf_ccie where ccie_id in
+        <foreach item="ccieId" collection="array" open="(" separator="," close=")">
+            #{ccieId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteZfCcieByUserId" parameterType="Long">
+        delete from zf_ccie where user_id = #{userId}
+    </delete>
+
+</mapper>

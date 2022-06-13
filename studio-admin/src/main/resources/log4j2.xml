@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="fatal">
+  <Properties>
+    <!--  指定生成日志文件的项目名称  -->
+    <Property name="name" value="zhifeng-admin"/>
+    <!--  日志文件根目录 -->
+<!--    <Property name="baseDir" value="C:\Users\93997\Desktop\logs"/>-->
+    <Property name="baseDir" value="/tmp/logs"/>
+    <!--  打日志的输出格式  -->
+    <!--日志格式: %d: 日期, %thread: 线程名, %level: 日志级别, %logid: 日志id, %point: 日志切点  =>([logid: %X{logid}] [pointcut: %X{pointcut}])
+    %class: 日志输出类, %msg: 日志消息, %n: 换行符 -->
+    <Property name="log_pattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [level: %-5level] [thread: %thread] [class: %class{35} line: %line] - %msg%n"/>
+  </Properties>
+
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+      <ThresholdFilter level="info" onMatch="ACCEPT"
+        onMismatch="DENY"/>
+      <PatternLayout
+              pattern="${log_pattern}"/>
+    </Console>
+
+    <!-- info级别日志文件输出 -->
+    <RollingFile name="info_appender" fileName="${baseDir}/info.log"
+      filePattern="${baseDir}/${name}/%d{yyyy-MM-dd}/${name}.info_%i.log.%d{yyyy-MM-dd}">
+      <!-- 过滤器 -->
+      <Filters>
+        <!-- 限制日志级别在info及以上在error以下 -->
+        <ThresholdFilter level="info"/>
+        <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+      </Filters>
+      <!-- 日志格式 -->
+      <PatternLayout pattern="${log_pattern}"/>
+      <!-- 策略 -->
+      <Policies>
+        <!-- 每隔一天转存 -->
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <!-- 文件大小 -->
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingFile>
+
+    <!-- error级别日志文件输出 -->
+    <RollingFile name="error_appender" fileName="${baseDir}/error.log"
+      filePattern="${baseDir}/${name}/%d{yyyy-MM-dd}/${name}.error_%i.log.%d{yyyy-MM-dd}">
+      <!-- 过滤器 -->
+      <Filters>
+        <!-- 限制日志级别在error及以上 -->
+        <ThresholdFilter level="error"/>
+      </Filters>
+      <!-- 日志格式 -->
+      <PatternLayout pattern="${log_pattern}"/>
+      <Policies>
+        <!-- 每隔一天转存 -->
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <!-- 文件大小 -->
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+      <!--   在同一个文件目录下，文件的个数限定为30个，超过则会进行覆盖   -->
+      <DefaultRolloverStrategy max="30" />
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <!--  com.changlu下打的日志记录到文件中(主要记录业务异常)  additivity = "false"打破传递性  -->
+    <logger name="com.changlu" level="info" additivity = "false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="info_appender"/>
+      <AppenderRef ref="error_appender"/>
+    </logger>
+    <!-- Spring日志级别控制  -->
+    <logger name="org.springframework" level="warn" />
+    <!--  框架的日志记录在console显示，文件只存储error级别的  -->
+    <Root level="debug">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="error_appender"/>
+    </Root>
+  </Loggers>
+</Configuration>

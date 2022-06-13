@@ -1,0 +1,8 @@
+/* 隐藏显示框 */
+#header.hide {
+  opacity: 0.1;
+}
+
+#header:hover{
+  opacity: 1;
+}

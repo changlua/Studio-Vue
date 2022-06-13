@@ -1,0 +1,102 @@
+package com.changlu.common.domain;
+
+import com.changlu.common.annoation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @ClassName BaseEntity
+ * @Author ChangLu
+ * @Date 4/3/2022 3:51 PM
+ * @Description 基础对象
+ */
+public class BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /** 请求参数 */
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  //只允许序列化（json=>对象），在对象转json时忽略
+    private Map<String, Object> params;
+
+    /** 更新时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
+
+    /** 更新者 */
+    private String updateBy;
+
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "创建时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+
+    /** 创建者 */
+    private String createBy;
+
+    /** 备注 */
+    private String remark;
+
+    public Date getUpdateTime()
+    {
+        return updateTime;
+    }
+    public void setUpdateTime(Date updateTime)
+    {
+        this.updateTime = updateTime;
+    }
+
+    public Date getCreateTime()
+    {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime)
+    {
+        this.createTime = createTime;
+    }
+
+    public Map<String, Object> getParams() {
+        if (params == null)
+        {
+            params = new HashMap<>(1);
+        }
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public String getCreateBy()
+    {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy)
+    {
+        this.createBy = createBy;
+    }
+
+    public String getRemark()
+    {
+        return remark;
+    }
+
+    public void setRemark(String remark)
+    {
+        this.remark = remark;
+    }
+}

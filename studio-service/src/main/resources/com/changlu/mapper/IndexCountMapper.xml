@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.mapper.IndexCountMapper">
+
+    <!--  根据年级来统计竞赛  -->
+    <select id="countRacesByGrade" resultType="java.lang.Long">
+        -- 构造年级然后左连接，tmp.*,
+        SELECT IFNULL(t.count, 0) from (
+                SELECT CONCAT(#{beginYear},'') as year
+                UNION SELECT CONCAT(#{beginYear}+1,'')
+                UNION SELECT CONCAT(#{beginYear}+2,'')
+                UNION SELECT CONCAT(#{beginYear}+3,'') ) as tmp
+        LEFT JOIN (
+                SELECT COUNT(*) count,DATE_FORMAT(r.race_end_time, '%Y') as year
+                        from zf_race r
+                        WHERE DATE_FORMAT(r.race_end_time, '%Y') BETWEEN #{beginYear} and #{endYear}  -- 使用两条数据
+                        GROUP BY DATE_FORMAT(r.race_end_time, '%Y')
+                        ORDER BY DATE_FORMAT(r.race_end_time, '%Y') asc
+        )t on t.year = tmp.year
+        order by tmp.year asc
+    </select>
+
+    <!--  根据年级来统计证书  -->
+    <select id="countCciesByGrade" resultType="java.lang.Long">
+        SELECT IFNULL(t.count, 0) FROM (
+            SELECT CONCAT(#{beginYear},'') as year
+            UNION SELECT CONCAT(#{beginYear}+1,'')
+            UNION SELECT CONCAT(#{beginYear}+2,'')
+            UNION SELECT CONCAT(#{beginYear}+3,'') ) as tmp
+        LEFT JOIN (
+            SELECT COUNT(*) count,DATE_FORMAT(r.ccci_get_time, '%Y') as year
+                FROM zf_ccie r
+                WHERE DATE_FORMAT(r.ccci_get_time, '%Y') BETWEEN #{beginYear} and #{endYear} -- 浣跨敤涓ゆ潯鏁版嵁
+                GROUP BY DATE_FORMAT(r.ccci_get_time, '%Y') ORDER BY DATE_FORMAT(r.ccci_get_time, '%Y') asc
+        ) t
+        ON t.year = tmp.year
+        order by tmp.year asc
+    </select>
+
+    <!--  根据专业来统计竞赛  -->
+    <select id="countRacesByMajor" resultType="java.lang.Long">
+        -- 通过使用专业左连，可以取到对应专业及0的情况
+        -- t3.major_name,可加专业名称属性来看是否对应
+        SELECT IFNULL(t4.count, 0) as count
+          FROM zf_major t3
+        left join (
+            SELECT count(*) as count,t2.major_id  -- SELECT t.*,t2.major_name    -- 测试查询
+            FROM zf_race t
+                 LEFT JOIN sys_user t1 ON t1.user_id = t.race_members
+                 LEFT JOIN zf_major t2 ON t2.major_id = t1.major_id
+             WHERE t.race_flag = '1' and !ISNULL(t2.major_name)    -- 筛选个人竞赛、专业为空
+                 GROUP BY t2.major_name     -- 以专业名称来分组
+                 ORDER BY t2.major_id asc
+        ) t4 on t3.major_id = t4.major_id
+         ORDER BY t3.major_id ASC;
+    </select>
+
+    <!--  根据专业来统计竞赛  -->
+    <select id="countCciesByMajor" resultType="java.lang.Long">
+        SELECT IFNULL(t4.count, 0) as count
+          FROM zf_major t3
+        left join (
+            SELECT count(*) as count,t2.major_name,t2.major_id
+                    -- SELECT t.*,t2.major_name  -- 测试查询
+            from zf_ccie t
+                    LEFT JOIN sys_user t1 on t1.user_id = t.user_id
+                    LEFT JOIN zf_major t2 on t2.major_id = t1.major_id
+            WHERE !ISNULL(major_name)  -- 筛选个人竞赛、专业为空
+                    GROUP BY major_name  -- 以专业名称来分组
+                    ORDER BY t2.major_id asc
+        ) t4 on t3.major_id = t4.major_id
+         ORDER BY t3.major_id ASC;
+    </select>
+
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.changlu.system.mapper.SysUserMapper">
+
+    <resultMap type="com.changlu.system.pojo.SysUser" id="SysUserResult">
+        <id property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="userType"    column="user_type"    />
+        <result property="email"    column="email"    />
+        <result property="phonenumber"    column="phonenumber"    />
+        <result property="sex"    column="sex"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="password"    column="password"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginDate"    column="login_date"    />
+<!--        <result property="createBy"    column="create_by"    />-->
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="realName"    column="real_name"    />
+        <result property="description"    column="description"    />
+        <result property="perImg"    column="per_img"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="gradeId"    column="grade_id"    />
+        <result property="gradeNum"    column="grade_num"    />
+        <collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
+    </resultMap>
+
+    <resultMap id="RoleResult" type="SysRole">
+        <id     property="roleId"       column="role_id"        />
+        <result property="roleName"     column="role_name"      />
+        <result property="roleKey"      column="role_key"       />
+        <result property="roleSort"     column="role_sort"      />
+        <result property="dataScope"     column="data_scope"    />
+        <result property="status"       column="role_status"    />
+    </resultMap>
+
+<!--    <select id="loadUserByUsername" resultType="SysUser">-->
+<!--        SELECT * from sys_user-->
+<!--        where user_name = #{username} and status = 0-->
+<!--    </select>    -->
+
+    <select id="loadUserByUsername" resultMap="SysUserResult">
+        select t.user_id, t.user_name, t.nick_name, t.email,
+               t.avatar, t.phonenumber, t.password, t.sex,
+               t.status, t.del_flag, t.login_ip, t.login_date,
+               t.create_by, t.create_time, t.remark,
+               t.real_name, t.description, t.per_img,
+               t1.role_id, t2.role_name, t2.role_key, t2.role_sort, t2.data_scope, t2.status as role_status,
+               t3.grade_id, t3.grade_num,
+               t4.major_id, t4.major_name
+        from sys_user t
+                 left join sys_user_role t1 on t.user_id = t1.user_id
+                 left join sys_role t2 on t2.role_id = t1.role_id   -- 左联角色表
+                 left join zf_grade t3 on t3.grade_id = t.grade_id  -- 左联年纪表取得年级
+                 left join zf_major t4 on t4.major_id = t.major_id  -- 左联专业表取得专业
+        where user_name = #{username} and t.status = 0
+    </select>
+
+    <select id="selectUserById" resultType="SysUser">
+        SELECT * from sys_user where user_id = #{userId}
+    </select>
+
+    <select id="selectRolesByUserId" resultType="java.lang.String">
+        SELECT DISTINCT
+            r.role_name
+        FROM
+            sys_user_role ur
+                LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        WHERE
+            ur.user_id = #{userId}
+    </select>
+
+    <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="nickName != null and nickName != ''">nick_name,</if>
+            <if test="userType != null">user_type,</if>
+            <if test="email != null">email,</if>
+            <if test="phonenumber != null">phonenumber,</if>
+            <if test="sex != null">sex,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="password != null">password,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="loginIp != null">login_ip,</if>
+            <if test="loginDate != null">login_date,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="realName != null">real_name,</if>
+            <if test="description != null">description,</if>
+            <if test="perImg != null">per_img,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="gradeId != null">grade_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="nickName != null and nickName != ''">#{nickName},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phonenumber != null">#{phonenumber},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="password != null">#{password},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="description != null">#{description},</if>
+            <if test="perImg != null">#{perImg},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="gradeId != null">#{gradeId},</if>
+        </trim>
+    </insert>
+
+    <select id="getLastInsertId" resultType="java.lang.Long">
+        SELECT LAST_INSERT_ID();
+    </select>
+
+    <select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
+        select distinct u.user_id, u.user_name, u.real_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
+        from sys_user u
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where u.del_flag = '0' and r.role_id = #{roleId}
+        <if test="userName != null and userName != ''">
+            AND u.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="phonenumber != null and phonenumber != ''">
+            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+        </if>
+    </select>
+
+    <select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
+        select distinct u.user_id, u.user_name,u.real_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
+        from sys_user u
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where u.del_flag = '0' and (r.role_id != #{roleId} or r.role_id IS NULL)
+        and u.user_id not in (select u.user_id from sys_user u inner join sys_user_role ur on u.user_id = ur.user_id and ur.role_id = #{roleId})
+        <if test="userName != null and userName != ''">
+            AND u.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="phonenumber != null and phonenumber != ''">
+            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+        </if>
+        and (r.role_id != 1 or r.role_id is null) -- 排除掉管理员情况
+    </select>
+
+    <update id="updateSysUser" parameterType="SysUser">
+        update sys_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phonenumber != null">phonenumber = #{phonenumber},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="loginIp != null">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="perImg != null">per_img = #{perImg},</if>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="gradeId != null">grade_id = #{gradeId},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <!--  用户账号只有注销过后才允许被删除账号  -->
+    <delete id="deleteSysUserByUserId" parameterType="Long">
+        delete from sys_user
+        where status = 1 and user_id = #{userId}
+    </delete>
+
+
+
+</mapper>
+
