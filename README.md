@@ -3,6 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Studio V1.0.0</h1>
 <p align="center">
+    <a href="https://github.com/changlua/studio-vue/releases/tag/v1.0.0"><img src="document/images/head/version.svg"></a>
 	<a href="https://github.com/changlua/studio-vue/blob/master/LICENSE"><img src="document/images/head/MIT.svg"></a>
 </p>
 
