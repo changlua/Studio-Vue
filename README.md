@@ -6,6 +6,8 @@
     <a href="https://github.com/changlua/studio-vue/releases/tag/v1.0.0"><img src="document/images/head/version.svg"></a>
 	<a href="https://github.com/changlua/studio-vue/blob/master/LICENSE"><img src="document/images/head/MIT.svg"></a>
 </p>
+
+
 # 前言
 
 去年在工作室偶然听到其他工作室要做一个官网，接着趁着一时兴起然后也找了个模板来做了一个自己的官网以及一个后台管理系统，当时的后台系统只有一个登录、注册还有一个提交个人信息的页面，主要为了方便展示动态汇总团队成员。
