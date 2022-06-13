@@ -6,15 +6,11 @@
     <a href="https://github.com/changlua/studio-vue/releases/tag/v1.0.0"><img src="document/images/head/version.svg"></a>
 	<a href="https://github.com/changlua/studio-vue/blob/master/LICENSE"><img src="document/images/head/MIT.svg"></a>
 </p>
-
-
-
-
 # 前言
 
 去年在工作室偶然听到其他工作室要做一个官网，接着趁着一时兴起然后也找了个模板来做了一个自己的官网以及一个后台管理系统，当时的后台系统只有一个登录、注册还有一个提交个人信息的页面，主要为了方便展示动态汇总团队成员。
 
-想要将这个工作室管理系统继续做下去我自己总结了几个原因：①再此之前我也在gitee、github上搜索了相关学校工作室、实验室管理系统，没有发现比较完善的，较好的。②为了在简历上有些亮点。③恰逢大专毕业设计；目前转本后进入本科还有两年的时间，相对空余时间较多。④将自己所学到的一个技术能够有一个应用场景，助推自己的技术学习与进步。
+想要将这个工作室管理系统继续做下去我自己总结了几个原因：①再此之前我也在gitee、github上搜索了相关学校工作室、实验室管理系统，没有发现比较完善的，较好的。②为了在简历上有些亮点。③将自己所学到的一个技术能够有一个应用场景，助推自己的技术学习与进步。
 
 今年也正好趁毕业设计这个为主题继续进行了开发，耗时近一个月将后台管理系统进行了初步完善。
 
@@ -182,7 +178,7 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 ![image-20220612200813685](document/images/table-filed.png)  
 
-# 环境搭建
+# 快速开始
 
 ## 本地运行
 
@@ -192,13 +188,15 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 开发工具：IDEA2020
 
-项目构建工具：Maven
+项目构建工具：Maven3.6.3
 
 数据库：MySQL 5.7、Redis
 
+前端环境：Node.js、Npm
+
 > 本地环境构建运行
 
-1、克隆本项目
+**1、克隆本项目**
 
 ```shell
 # github仓库
@@ -208,15 +206,70 @@ git clone https://github.com/changlua/Studio-Vue.git
 git clone https://gitee.com/changluJava/studio-vue.git
 ```
 
-2、
+**2、启动后台服务**
 
+①、IDEA打开项目，配置yaml文件
 
+修改`studio-admin/application-dev`文件中的数据库地址以及连接数据库名称与密码、redis的密码。
 
+②、导入sql/studio.sql
 
+操作方式：直接导入即可，在sql中已经添加了创建数据库的sql语句了，不用你自己先创建数据库，默认是studio。
+
+③运行studio-admin的启动类。  
+
+**3、运行后台管理系统前端vue项目**
+
+进入到studio-ui目录下，执行命令安装依赖并运行：
+
+```shell
+# 安装依赖
+npm install
+
+# 运行项目
+npm run dev
+```
+
+访问：http://localhost:8089
+
+当前管理系统仅有一个系统管理员账号：admin 123
+
+**4、运行静态页面**
+
+进入到studio-front目录下，打开index.html即可进入到首页，team.html即为团队页。
+
++ team.html中会发送请求到后台获取所有用户的数据。
 
 ## Linux服务器部署
 
-待更新...
+待更新..
+
+---
+
+# 日志
+
+2022.6.13：开源仓库建立，READEME更新完善。
+
+2022.6.3-6.12：项目模块更改名称、apifox文档整理、开源计划准备。
+
+2022.6.2：团队页接口更新，支持指导老师身份。
+
+2022.6.1：新增数据备份功能，包含sql与网站图片资源。
+
+2022.5.6：两个上传功能合并到一起，采用工厂模式，进行改写复用。
+
+2022.4.22：新增上传、删除本地文件功能
+
+2022.4.18：生成用户成员查询sql添加筛选条件状态为正常的账号。
+
+2022.4.17：个人竞赛中获奖证书新增、首页统计bug
+
+2022.4.16：①看板娘实现拖拽。②用户登录凭证将用户id改为uuid。
+
+2022.3.21-2022.4.15：v1.0.0初步完成，基本功能实现。
 
 # 交流学习
 
+QQ群：571215225
+
+作者QQ：939974883
