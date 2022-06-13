@@ -186,7 +186,33 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 ## 本地运行
 
-待更新...
+> 本地环境
+
+环境：Windows系统
+
+开发工具：IDEA2020
+
+项目构建工具：Maven
+
+数据库：MySQL 5.7、Redis
+
+> 本地环境构建运行
+
+1、克隆本项目
+
+```shell
+# github仓库
+git clone https://github.com/changlua/Studio-Vue.git
+
+# gitee仓库
+git clone https://gitee.com/changluJava/studio-vue.git
+```
+
+2、
+
+
+
+
 
 ## Linux服务器部署
 
