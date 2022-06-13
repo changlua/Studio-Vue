@@ -49,7 +49,7 @@ public class SaveDataTask {
     @Value("${spring.mail.tomaillist}")
     private String[] toEmailList;
 
-    //1、备份SQL
+    //1、备份SQL(暂时使用java执行不了docker命令)
     public String dataBaseBackupWork(){
         try {
             return dataBaseBackup(host, port, username, password, dataBaseName, sqlFileName);
@@ -64,11 +64,12 @@ public class SaveDataTask {
             file.mkdir();
         }
         File dataFile = new File(file + File.separator + sqlname + ".sql");
-        if (dataFile.exists()) {
-            dataFile.delete();
-        }
+//        if (dataFile.exists()) {
+//            dataFile.delete();
+//        }
         String os = System.getProperty("os.name");
         String s = null;
+        //===暂时只让windows去执行备份,linux有问题===
         //拼接cmd命令
         //windows：cmd /c mysqldump -hlocalhost -P3306 -uroot -p123456 db > E:/back.sql
         //linux(容器内)：docker exec -it mysql mysqldump -hlocalhost -P3306 -uroot -p123456 db > E:/back.sql
@@ -76,8 +77,9 @@ public class SaveDataTask {
         if (os != null && os.toLowerCase().startsWith("windows")) {
             s = String.format("cmd /c mysqldump -h%s -P%s -u%s -p%s %s > %s",host, port, username, password, dataBaseName, dataFile.getAbsolutePath());
         }else if (os != null && os.toLowerCase().startsWith("linux")) {  //linux命令
-            s = String.format("docker exec mysql mysqldump -u%s -p%s %s > %s", username, password, dataBaseName, dataFile.getAbsolutePath());
+            s = String.format("docker exec -i mysql mysqldump -u%s -p%s %s > %s", username, password, dataBaseName, dataFile.getAbsolutePath());
         }
+        log.info("执行的备份命令为：" + s.toString());
         Process exec = Runtime.getRuntime().exec(s.toString());
         if (exec.waitFor() == 0){
             log.info("数据库备份成功,备份路径为：{}",dataFile);
