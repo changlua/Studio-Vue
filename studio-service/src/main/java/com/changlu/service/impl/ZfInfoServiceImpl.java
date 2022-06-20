@@ -1,6 +1,8 @@
 package com.changlu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.changlu.common.utils.RedisCache;
+import com.changlu.config.ZfConstant;
 import com.changlu.security.util.SecurityUtils;
 import com.changlu.service.ISysUserService;
 import com.changlu.service.ZfGradeService;
@@ -37,11 +39,17 @@ public class ZfInfoServiceImpl implements ZfInfoService {
     @Autowired
     private ISysUserService syUserService;
 
+    @Autowired
+    private RedisCache redisCache;
+
     @Override
     public int commitUserInfo(InfoVo infoVo) {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(infoVo, sysUser);
-        return syUserService.updateSysUser(sysUser, true);
+        int res = syUserService.updateSysUser(sysUser, true);
+        //删缓存
+        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        return res;
     }
 
     @Override

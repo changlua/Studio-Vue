@@ -2,16 +2,16 @@ package com.changlu.web.controller;
 
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.RedisCache;
-import com.changlu.web.config.ZfConstant;
+import com.changlu.config.ZfConstant;
 import com.changlu.web.task.GenerateTeamUsersTask;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName CommonController
@@ -31,13 +31,13 @@ public class CommonController {
 
     @GetMapping("/members")
     public ResponseResult getMembersInfo(){
-        List<Map> result = genTeamUsersTask.doGenerateTeamUsers();
-        //走缓存
-//        List<Map> result = redisCache.getCacheObject(ZfConstant.REDIS_MEMBERS_DATA);
-//        if (ObjectUtils.isEmpty(result)) {
-//            result = genTeamUsersTask.doGenerateTeamUsers();
-//            redisCache.setCacheObject(ZfConstant.REDIS_MEMBERS_DATA, result);
-//        }
+        //1、走缓存
+        List<Map> result = redisCache.getCacheObject(ZfConstant.REDIS_MEMBERS_DATA);
+        if (result == null) {
+            //2、若是没有缓存走数据库
+            result = genTeamUsersTask.doGenerateTeamUsers();
+            redisCache.setCacheObject(ZfConstant.REDIS_MEMBERS_DATA, result, 1, TimeUnit.DAYS);//1天过期
+        }
         return ResponseResult.success(result);
     }
 

@@ -3,6 +3,8 @@ package com.changlu.service.impl;
 import com.changlu.common.config.ZfConfig;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.exception.ServiceException;
+import com.changlu.common.utils.RedisCache;
+import com.changlu.config.ZfConstant;
 import com.changlu.mapper.ZfCcieMapper;
 import com.changlu.mapper.ZfMUserMapper;
 import com.changlu.mapper.ZfThinkMapper;
@@ -56,6 +58,9 @@ public class ZfManageUserServiceImpl implements ZfManageUserService {
     @Autowired
     private ZfConfig zfConfig;
 
+    @Autowired
+    private RedisCache redisCache;
+
     /**
      * 查询用户接口
      */
@@ -100,7 +105,10 @@ public class ZfManageUserServiceImpl implements ZfManageUserService {
         sysUser.setRealName(userVo.getRealName());
         sysUser.setGradeId(userVo.getGradeId());
         sysUser.setMajorId(userVo.getMajorId());
-        return sysUserService.updateSysUser(sysUser, false);
+        int res = sysUserService.updateSysUser(sysUser, false);
+        //删缓存
+        redisCache.deleteObject(ZfConstant.REDIS_MEMBERS_DATA);
+        return res;
     }
 
     @Override

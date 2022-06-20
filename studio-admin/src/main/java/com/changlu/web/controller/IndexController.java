@@ -3,7 +3,6 @@ package com.changlu.web.controller;
 import com.changlu.common.domain.ResponseResult;
 import com.changlu.common.utils.RedisCache;
 import com.changlu.service.IndexService;
-import com.changlu.web.config.ZfConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

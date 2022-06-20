@@ -1,8 +1,8 @@
 package com.changlu.web.task;
 
 import com.changlu.common.utils.RedisCache;
+import com.changlu.config.ZfConstant;
 import com.changlu.mapper.ZfMUserMapper;
-import com.changlu.web.config.ZfConstant;
 import com.changlu.vo.ShowUserVo;
 import com.changlu.enums.ZfRoleEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -49,14 +48,22 @@ public class GenerateTeamUsersTask {
      * @throws JsonProcessingException
      */
     public List<Map> doGenerateTeamUsers() {
-        List<ShowUserVo> showUserVos = zfMUserMapper.selectShowUserVoList();
-        //3、构造响应对象
-        List<Map> result = new ArrayList<>(showUserVos.size());
-        //构建老师
-        buildTeacherMembers(result, showUserVos);
-        //构建学生
-        buildStudentMembers(result, showUserVos);
-        return result;
+        synchronized (this) {
+            //得到锁之后需要去缓存中再去尝试查询一次
+            List<Map> result = redisCache.getCacheObject(ZfConstant.REDIS_MEMBERS_DATA);
+            //若是能够从缓存中查询到直接返回
+            if (result != null) {
+                return result;
+            }
+            List<ShowUserVo> showUserVos = zfMUserMapper.selectShowUserVoList();
+            //3、构造响应对象
+            result = new ArrayList<>(showUserVos.size());
+            //构建老师
+            buildTeacherMembers(result, showUserVos);
+            //构建学生
+            buildStudentMembers(result, showUserVos);
+            return result;
+        }
     }
 
     //构建指导老师列表

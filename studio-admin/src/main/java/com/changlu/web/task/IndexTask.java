@@ -1,11 +1,10 @@
 package com.changlu.web.task;
 
 import com.changlu.common.utils.RedisCache;
+import com.changlu.config.ZfConstant;
 import com.changlu.service.IndexService;
-import com.changlu.web.config.ZfConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
