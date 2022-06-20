@@ -17,7 +17,7 @@ import java.util.UUID;
 public class JwtUtil {
 
     //令牌自定义标识
-    public static String header = "Authorization";
+    public static final String header = "Authorization";
 
     //有效期为30分钟
     public static final int JWT_EXPIRETIME = 30;
@@ -32,7 +32,7 @@ public class JwtUtil {
     public static final String JWT_KEY = "changlu";
 
     public static String getUUID(){
-        String token = UUID.randomUUID().toString().replaceAll("-", "");
+        String token = UUID.randomUUID().toString().replace("-", "");
         return token;
     }
 
@@ -72,7 +72,7 @@ public class JwtUtil {
             return Jwts.builder()
                     .setId(uuid)              //唯一的ID
                     .setSubject(subject)   // 主题  可以是JSON数据
-                    .setIssuer("changlu")     // 签发者
+                    .setIssuer(JWT_KEY)     // 签发者
                     .setIssuedAt(now)      // 签发时间
                     .signWith(signatureAlgorithm, secretKey) //使用HS256对称加密算法签名, 第二个参数为秘钥
                     .setExpiration(expDate);  //设置过期时间
@@ -80,7 +80,7 @@ public class JwtUtil {
         //若是没有设置指定时间，就直接生成一个不带有过期时间的token
         return Jwts.builder()
                 .setId(uuid) //设置唯一标识
-                .setIssuer("changlu")
+                .setIssuer(JWT_KEY)
                 .setSubject(subject) //设置主体内容
                 .signWith(signatureAlgorithm, secretKey);//进行算法签名
     }
@@ -129,7 +129,7 @@ public class JwtUtil {
     }
 
     public static void test() throws Exception {
-        final String token = createJWT("changlu");
+        final String token = createJWT(JWT_KEY);
         System.out.println(token);
         //校验token
         final Claims claims = parseJWT("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyNTA2ODZmMzBlNTY0ODdhOGNlYTU1YWQxYzIzYWE0MiIsImlzcyI6ImNoYW5nbHUiLCJzdWIiOiJjaGFuZ2x1In0.RE3dkDuGg-bTPI5ipwi6JFrhoPVN94ar_Pe0vsPAchg");
