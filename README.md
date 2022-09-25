@@ -23,6 +23,10 @@
 - 感谢 [RUOYI](https://gitee.com/y_project/RuoYi) 提供的后台管理系统模板以及后台路由、权限管理。【项目功能引用了若依的角色、菜单管理】
 - 感谢项目logo：[来源网站地址](https://www.flaticon.com/search?word=deer)、作者[Hery Mery](https://www.flaticon.com/authors/hery-mery)
 
+**演示地址**：http://studio.codercl.xyz/
+
++ 用户名：admin  密码：123
+
 # 项目介绍
 ## 项目演示
 
@@ -167,8 +171,6 @@
 文件上传接口：支持本地或者阿里云OSS存储，仅需配置下即可。
 
 # 项目文档
-
-文档地址：待更新
 
 API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0178c
 
