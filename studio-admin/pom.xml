@@ -106,6 +106,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -127,9 +128,9 @@
                 <version>1.0.0</version>
                 <configuration>
                     <!--远程Docker的地址
-                        本地测试：192.168.1.109
+                        本地centos测试：192.168.1.109
                     -->
-                    <dockerHost>http://121.5.142.227:2375</dockerHost>
+                    <dockerHost>http://192.168.3.83:2375</dockerHost>
                     <!--镜像名称，前缀/项目名-->
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <!-- 我们自己配置编写的docker目录，也就是dockerfile：指定位置在src/main/docker中    -->

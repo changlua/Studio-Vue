@@ -13,5 +13,8 @@ out/
 
 # 本地测试的yml文件
 application-localdev.yml
+# 本地虚拟机centos测试的yml文件
+application-localdev-centos.yml
 # 测试服务器的yml文件
 application-localpro.yml
+

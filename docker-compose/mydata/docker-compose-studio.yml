@@ -1,0 +1,32 @@
+version: '3.1'
+
+# 外部网络声明（否则无法使用之前已经定义好的网络）
+networks:
+  studio-net:
+    external: true
+
+services:
+  studio:  # studio实验室
+    image: studio/studio-admin:latest
+    container_name: studio-admin
+    ports:
+      - 8999:8999
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/mydata/project/studio-admin/logs:/tmp/logs"
+      - "/mydata/nginx/html/static:/tmp/static"
+    networks:
+      - studio-net
+  nginx:   # nginx服务
+    image: library/nginx:1.10
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - "/mydata/nginx/html:/usr/share/nginx/html"
+      - "/mydata/nginx/logs:/var/log/nginx"
+      - "/mydata/nginx/conf:/etc/nginx"
+    networks:
+      - studio-net
+    depends_on:
+      - studio

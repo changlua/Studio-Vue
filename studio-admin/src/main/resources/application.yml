@@ -4,7 +4,7 @@ server:
 spring:
   # 服务模块
   profiles:
-    active: localdev
+    active: localdev-centos
   # 文件上传
   servlet:
     multipart:

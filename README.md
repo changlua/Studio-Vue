@@ -244,11 +244,316 @@ npm run dev
 
 ## Linux服务器部署
 
-待更新..
+### 准备工作
+
+在服务器根目录/下创建mydata文件夹，将mydata目录下的内容拷贝到其中：
+
+对应的文件内容在仓库的docker-compose目录下：
+
+![image-20220925145342827](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925145342827.png)  
+
+复制到服务器后如下：
+
+![image-20220925151128111](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151128111.png)  
+
+### 1、启动基础服务（mysql、redis）
+
+**步骤一、启动docker-compose的基础服务文件，启动mysql与redis**
+
+①启动前设置`docker-compose-basic.yml`文件中的redis密码，在35行`--requirepass`后。
+
+②启动docker-compose文件：
+
+```shell
+# 进入到/mydata目录
+cd /mydata
+
+# 启动docker-compose-basic文件
+docker-compose -f docker-compose-basic.yml up -d 
+```
+
+> docker-compose-basic.yml如下所示：
+
+`docker-compose-basic.yml`：
+
+```yaml
+version: '3.1'
+
+networks:
+  studio-net:  # 网络名
+    name: studio-net
+    driver: bridge
+
+services:
+  mysql:
+    image: library/mysql:5.7.36
+    restart: always
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/mydata/mysql/log:/var/log/mysql"
+      - "/mydata/mysql/data:/var/lib/mysql"
+      - "/mydata/mysql/conf:/etc/mysql/mysql.conf.d"
+    networks:
+      - studio-net
+  redis:
+    image: library/redis:5
+    restart: always
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - "/mydata/redis/redis.conf:/etc/redis/redis.conf"
+      - "/mydata/redis/data:/data"
+    networks:
+      - studio-net
+    command: ["redis-server","/etc/redis/redis.conf","--appendonly yes", "--requirepass SZcmfGJGUD4v"]
+```
+
+**步骤二：创建mysql用户，并导入sql文件**
+
+①设置mysql密码操作如下：
+
+```shell
+# 使用mysql容器中的命令行
+docker exec -it mysql /bin/bash
+
+# 使用MySQL命令打开客户端：
+mysql -uroot -proot --default-character-set=utf8
+
+# 接着创建一个账户，该账号所有ip都能够访问
+# 用户名：root  密码：123456
+grant all privileges on *.* to 'root' @'%' identified by '123456';
+```
+
+②导入sql文件：建议是进行远程连接导入，导入的sql如下：
+
+![image-20220925161843160](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925161843160.png)    
+
++ `studio.sql`：仅仅只有一个用户账号。
++ `studio-simple1.sql`：与演示网站的数据一致。
+
+导入`studio.sql`后的效果如下：
+
+![image-20220925151401835](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151401835.png)  
+
+### 2、IDEA构建镜像上传服务器
+
+**步骤一：开启服务器上docker的2375端口监听**
+
+修改配置文件：
+
+```shell
+# 编辑打开其中的docker.service文件
+vim /usr/lib/systemd/system/docker.service
+
+# 将其中的execstart进行替换
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+```
+
+然后重新加载docker.server文件并重启docker服务：
+
+```shell
+# 重新加载服务配置docker.server
+systemctl daemon-reload
+# 重新启动docker
+systemctl restart docker
+```
+
+来测试一下当前2375端口是否在监听：
+
+```shell
+# 若是出现json文件内容说明已经在监听了
+curl http://127.0.0.1:2375/version
+
+# 查看下2375端口是否被监听
+netstat -nlpt
+
+# 服务器防火墙开启2375端口
+firewall-cmd --add-port=2375/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --zone=public --list-ports
+```
+
+**步骤二：本地IDEA来测试是否能够连通服务器的docker服务**
+
+```
+tcp://192.168.3.83:2375
+```
+
+![image-20220925150325187](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925150325187.png)  
+
+**步骤三：修改远程Docker的服务ip地址**
+
+```shell
+<dockerHost>http://192.168.3.83:2375</dockerHost>
+```
+
+![image-20220925150522631](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925150522631.png)  
+
+修改好之后，我们来手动进行构建studio.admin的jar包：
+
+![image-20220925150623278](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925150623278.png) 
+
+接着我们来执行docker:build命令来进行打包镜像并上传服务器：
+
+![image-20220925150658343](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925150658343.png)  
+
+构建成功的效果如下：
+
+![image-20220925150754458](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925150754458.png)  
+
+![image-20220925150830057](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925150830057.png)  
+
+---
+
+### 3、启动最终服务（studio-admin、nginx服务）
+
+![image-20220925151551921](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151551921.png)  
+
+启动最终服务compose文件：
+
+```shell
+docker-compose -f docker-compose-studio.yml up -d 
+```
+
+ok，至此我们就已经部署服务结束：
+
+![image-20220925151716875](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151716875.png) 
+
+> docker-compose-studio.yml配置文件如下
+
+
+```shell
+version: '3.1'
+
+# 外部网络声明（否则无法使用之前已经定义好的网络）
+networks:
+  studio-net:
+    external: true
+
+services:
+  studio:  # studio实验室
+    image: studio/studio-admin:latest
+    container_name: studo-admin
+    ports:
+      - 8999:8999
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/mydata/project/studio-admin/logs:/tmp/logs"
+      - "/mydata/nginx/html/static:/tmp/static"
+    networks:
+      - studio-net
+  nginx:   # nginx服务
+    image: library/nginx:1.10
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - "/mydata/nginx/html:/usr/share/nginx/html"
+      - "/mydata/nginx/logs:/var/log/nginx"
+      - "/mydata/nginx/conf:/etc/nginx"
+    networks:
+      - studio-net
+    depends_on:
+      - studio
+```
+
+### 4、上传前端页面（官网、后台系统）
+
+#### 前置准备
+
+在目录``/mydata/nginx/html`下创建两个文件，分别是admin与front，前者放后台系统，后者放官网：
+
+![image-20220925151840475](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151840475.png)  
+
+#### 官网
+
+在仓库中官网页面为：`studio-front`，纯html静态页面。
+
+![image-20220925152417223](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925152417223.png)  
+
+①修改front路径，上传官网页面
+
+修改第一处：`team.js`，也就是其中的接口路径
+
+```shell
+# 替换ip地址即可
+const url = "http://192.168.3.83/api/common/members"
+```
+
+![image-20220925152106875](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925152106875.png)  
+
+修改第二处：index.html，登录注册页面跳转路径
+
+```shell
+<!-- 同样修改ip地址即可 -->
+<li><a class="loginbtn" href="http://192.168.3.83/admin/" target="_blank">登陆/注册</a></li>
+```
+
+![image-20220925152204812](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925152204812.png)  
+
+最后就是上传到服务器：
+
+![image-20220925152327491](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925152327491.png)  
+
+#### 后台系统
+
+在仓库中的项目工程为`studio-ui`，是一个vue项目
+
+**修改一：修改生产环境的ip地址**
+
+```shell
+# 只需要替换ip地址即可
+BASE_URL: '"http://192.168.3.83/api"'
+```
+
+![image-20220925152519280](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925152519280.png)  
+
+接着我们来进行打包vue工程：
+
+```shell
+# 编译打包
+npm run build
+```
+
+打包完成后就会在dist目录下生成静态资源：
+
+![image-20220925152628648](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925152628648.png)  
+
+最终我们同样是将这个静态页面传到服务器的admin目录下：
+
+![image-20220925152924219](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925152924219.png)  
+
++ 这个favicon.ico就是之前front目录下的，网站图标。
+
+### 测试
+
+部署完成之后来进行测试：我这里的话是本地虚拟机搭建的地址，你只需要替换为你自己的生产ip地址即可
+
+官网：http://192.168.3.83/
+
+![image-20220925153255053](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925153255053.png)  
+
+后台管理系统：http://192.168.3.83/admin/，点击页面右的登录注册即可跳转。
+
+初始账号目前只有一个就是管理员：
+
+```
+admin  123
+```
+
+![image-20220925153305075](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925153305075.png)  
 
 ---
 
 # 日志
+
+2022.9.25：docker-compose文件来替换docker命令，更新README.md中Linux服务器部署章节。
 
 2022.6.13：开源仓库建立，READEME更新完善。
 
@@ -269,6 +574,8 @@ npm run dev
 2022.4.16：①看板娘实现拖拽。②用户登录凭证将用户id改为uuid。
 
 2022.3.21-2022.4.15：v1.0.0初步完成，基本功能实现。
+
+2021.11.22-2021.12.5：工作室官网、工作室后台系统实现，最小核心功能就是实现工作室成员的信息上传。
 
 # 交流学习
 

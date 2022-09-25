@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8
 MAINTAINER changlu 939974883@qq.com
 VOLUME /tmp
 ADD studio-admin-1.0.0.jar /app.jar

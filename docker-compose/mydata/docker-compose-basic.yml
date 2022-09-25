@@ -1,0 +1,35 @@
+version: '3.1'
+
+networks:
+  studio-net:  # 网络名
+    name: studio-net
+    driver: bridge
+
+services:
+  mysql:
+    image: library/mysql:5.7.36
+    restart: always
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/mydata/mysql/log:/var/log/mysql"
+      - "/mydata/mysql/data:/var/lib/mysql"
+      - "/mydata/mysql/conf:/etc/mysql/mysql.conf.d"
+    networks:
+      - studio-net
+  redis:
+    image: library/redis:5
+    restart: always
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - "/mydata/redis/redis.conf:/etc/redis/redis.conf"
+      - "/mydata/redis/data:/data"
+    networks:
+      - studio-net
+    command: ["redis-server","/etc/redis/redis.conf","--appendonly yes", "--requirepass SZcmfGJGUD4v"]
