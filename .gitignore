@@ -18,3 +18,5 @@ application-localdev-centos.yml
 # 测试服务器的yml文件
 application-localpro.yml
 
+# 官网的index主页面（部署测试服务器）
+index(pro).html
