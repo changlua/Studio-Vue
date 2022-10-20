@@ -6,7 +6,7 @@
 
     <groupId>com.changlu</groupId>
     <artifactId>studio-vue</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.0</version>
     <modules>
         <module>studio-common</module>
         <module>studio-system</module>
@@ -23,6 +23,32 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <studio.version>1.2.0</studio.version>
+        <springboot.dependences>2.7.0</springboot.dependences>
+        <springboot.web>2.5.0</springboot.web>
+        <springboot.log4j2>2.5.3</springboot.log4j2>
+        <log4j.api>2.16.0</log4j.api>
+        <log4j.core>2.16.0</log4j.core>
+        <springboot.security>2.5.0</springboot.security>
+        <springboot.mail>2.7.0</springboot.mail>
+        <springboot.redis>2.5.0</springboot.redis>
+        <commons.pool2>2.11.1</commons.pool2>
+        <springboot.pagehelper>1.4.1</springboot.pagehelper>
+        <springboot.test>2.5.0</springboot.test>
+        <springsecurity.test>5.6.2</springsecurity.test>
+        <springboot-mybatisplus>3.4.3</springboot-mybatisplus>
+        <mysql.connector>8.0.28</mysql.connector>
+        <lombok.version>1.18.22</lombok.version>
+        <springfox.version>3.0.0</springfox.version>
+        <fastjson.version>1.2.33</fastjson.version>
+        <jackson.version>2.13.2</jackson.version>
+        <jjwt.version>0.9.0</jjwt.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <easycaptcha.version>1.6.2</easycaptcha.version>
+        <commons.version>3.12.0</commons.version>
+        <commonsio.version>2.11.0</commonsio.version>
+        <poi.version>4.1.2</poi.version>
+        <aliyun.sdk.version>3.14.0</aliyun.sdk.version>
     </properties>
 
     <dependencyManagement>
@@ -31,7 +57,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.7.0</version>
+                <version>${springboot.dependences}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -40,58 +66,58 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>2.5.0</version>
+                <version>${springboot.web}</version>
             </dependency>
 
             <!--      log4j2      -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-log4j2</artifactId>
-                <version>2.5.3</version>
+                <version>${springboot.log4j2}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
-                <version>2.16.0</version>
+                <version>${log4j.api}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
-                <version>2.16.0</version>
+                <version>${log4j.core}</version>
             </dependency>
 
             <!--   spring security starter    -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
-                <version>2.5.0</version>
+                <version>${springboot.security}</version>
             </dependency>
 
             <!--   springboot stater mail    -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-mail</artifactId>
-                <version>2.7.0</version>
+                <version>${springboot.mail}</version>
             </dependency>
 
             <!--    springboot stater redis-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>2.5.0</version>
+                <version>${springboot.redis}</version>
             </dependency>
 
             <!--      redis要带上依赖包      -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
-                <version>2.11.1</version>
+                <version>${commons.pool2}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>1.4.1</version>
+                <version>${springboot.pagehelper}</version>
             </dependency>
 
             <!--     springboot stater test       -->
@@ -99,26 +125,26 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <scope>test</scope>
-                <version>2.5.0</version>
+                <version>${springboot.test}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-test</artifactId>
                 <scope>test</scope>
-                <version>5.6.2</version>
+                <version>${springsecurity.test}</version>
             </dependency>
 
             <!--   MyBatis-Plus starter     -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.4.3</version>
+                <version>${springboot-mybatisplus}</version>
             </dependency>
             <!--    MySQL Driver    -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.28</version>
+                <version>${mysql.connector}</version>
             </dependency>
 
             <!--   lombok工具类     -->
@@ -126,27 +152,27 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <optional>true</optional>
-                <version>1.18.22</version>
+                <version>${lombok.version}</version>
             </dependency>
 
             <!--    文档        -->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-boot-starter</artifactId>
-                <version>3.0.0</version>
+                <version>${springfox.version}</version>
             </dependency>
 
             <!--fastjson依赖-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>1.2.33</version>
+                <version>${fastjson.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.13.2</version>
+                <version>${jackson.version}</version>
                 <scope>compile</scope>
             </dependency>
 
@@ -154,49 +180,71 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
-                <version>0.9.0</version>
+                <version>${jjwt.version}</version>
             </dependency>
 
             <!--    katpcha,包含javax.servlet-api依赖，这里暂不排除    -->
             <dependency>
                 <groupId>com.github.penggle</groupId>
                 <artifactId>kaptcha</artifactId>
-                <version>2.3.2</version>
+                <version>${kaptcha.version}</version>
             </dependency>
 
             <!-- easy-captcha  -->
             <dependency>
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
-                <version>1.6.2</version>
+                <version>${easycaptcha.version}</version>
             </dependency>
 
             <!--常用工具类 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
+                <version>${commons.version}</version>
             </dependency>
 
             <!-- io常用工具类 -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.11.0</version>
+                <version>${commonsio.version}</version>
             </dependency>
 
             <!-- excel工具 -->
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
-                <version>4.1.2</version>
+                <version>${poi.version}</version>
             </dependency>
 
             <!--     阿里云SDK       -->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
-                <version>3.14.0</version>
+                <version>${aliyun.sdk.version}</version>
+            </dependency>
+
+            <!--     模块依赖       -->
+            <dependency>
+                <artifactId>studio-common</artifactId>
+                <groupId>com.changlu</groupId>
+                <version>${studio.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>studio-service</artifactId>
+                <groupId>com.changlu</groupId>
+                <version>${studio.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>studio-system</artifactId>
+                <groupId>com.changlu</groupId>
+                <version>${studio.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>studio-admin</artifactId>
+                <groupId>com.changlu</groupId>
+                <version>${studio.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -5,11 +5,10 @@
     <parent>
         <artifactId>studio-vue</artifactId>
         <groupId>com.changlu</groupId>
-        <version>1.0.0</version>
+        <version>1.2.0</version>
     </parent>
-    <groupId>com.changlu</groupId>
+    <!--  默认groupId、version都是继承的父模块  -->
     <artifactId>studio-admin</artifactId>
-    <version>1.0.0</version>
     <name>studio-admin</name>
     <description>后台管理系统web模块</description>
     <properties>
