@@ -1,11 +1,18 @@
 <p align="center">
-	<img alt="logo" style="width:80px;height:80px" src="document/images/logo.png">
+	<img alt="logo" style="width:80px;height:80px" src="https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/6/202206151314105.png">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Studio-Vue V1.0.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Studio-Vue V1.2.0</h1>
 <p align="center">
-    <a href="https://github.com/changlua/studio-vue/releases/tag/v1.0.0"><img src="document/images/head/version.svg"></a>
-	<a href="https://github.com/changlua/studio-vue/blob/master/LICENSE"><img src="document/images/head/MIT.svg"></a>
+    <a href="https://github.com/changlua/studio-vue/releases/tag/v1.2.0"><img src="https://img.shields.io/badge/studio-V1.2.0-green"></a>
+	<a href="https://github.com/changlua/studio-vue/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green"></a>
+<img src="https://img.shields.io/badge/JDK-1.8+-green.svg"/>
+<img src="https://img.shields.io/badge/springboot-2.7.0.RELEASE-green"/>
+<img src="https://img.shields.io/badge/vue-2.5.2-green"/>
+<img src="https://img.shields.io/badge/mysql-8.0.28-green"/>
+<img src="https://img.shields.io/badge/mybatis--plus-3.4.3-green"/>
+<img src="https://img.shields.io/badge/redis-2.5.0-green"/>
 </p>
+
 
 
 # 前言
@@ -184,7 +191,7 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 # 快速开始
 
-## 本地运行
+## 本地运行（v1.2版本）
 
 > 本地环境
 
@@ -244,7 +251,7 @@ npm run dev
 
 + team.html中会发送请求到后台获取所有用户的数据。
 
-## Linux服务器部署
+## Linux服务器部署（v1.2版本）
 
 ### 准备工作
 
