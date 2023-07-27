@@ -586,6 +586,8 @@ admin  123
 
 # 日志
 
+2023.7.27：修改studio-vue 1.2版本部署部分问题，包含图片上传后访问不了、Linux服务器部署。
+
 2022.9.25：docker-compose文件来替换docker命令，更新README.md中Linux服务器部署章节。
 
 2022.6.13：开源仓库建立，READEME更新完善。
