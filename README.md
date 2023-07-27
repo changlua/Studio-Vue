@@ -30,7 +30,7 @@
 - 感谢 [RUOYI](https://gitee.com/y_project/RuoYi) 提供的后台管理系统模板以及后台路由、权限管理。【项目功能引用了若依的角色、菜单管理】
 - 感谢项目logo：[来源网站地址](https://www.flaticon.com/search?word=deer)、作者[Hery Mery](https://www.flaticon.com/authors/hery-mery)
 
-**演示地址**：http://studio.codercl.xyz/
+**Studio-Vue演示地址**：http://codercl.cn/
 
 + 用户名：admin  密码：123
 
@@ -263,7 +263,27 @@ npm run dev
 
 复制到服务器后如下：
 
-![image-20220925151128111](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151128111.png)  
+![image-20220925151128111](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151128111.png)
+
+云服务器开启多个端口：实际最终只开放一个端口，其他端口仅仅是在过程中会需要开放一下用来测试
+
+![image-20230727155703362](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2023/7/202307271557531.png)  
+
+---
+
+### 安装Docker以及Docker-Compose
+
+>安装Docker
+
+见这篇博客：[快速使用Docker部署MySQL、Redis、Nginx](https://changlu.blog.csdn.net/article/details/124394266)
+
+
+
+>安装Docker-Compose
+
+见这篇博客：[docker-compose快速入门及实战](https://blog.csdn.net/cl939974883/article/details/126463806?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22126463806%22%2C%22source%22%3A%22cl939974883%22%7D)
+
+---
 
 ### 1、启动基础服务（mysql、redis）
 
@@ -278,7 +298,7 @@ npm run dev
 cd /mydata
 
 # 启动docker-compose-basic文件
-docker-compose -f docker-compose-basic.yml up -d 
+docker-compose -f docker-compose-basic.yml up -d 	
 ```
 
 > docker-compose-basic.yml如下所示：
@@ -351,6 +371,10 @@ grant all privileges on *.* to 'root' @'%' identified by '123456';
 ![image-20220925151401835](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151401835.png)  
 
 ### 2、IDEA构建镜像上传服务器
+
+**准备**：开启云服务器上安全组的2375端口。【提示：请在上传镜像的时候开启，开的时间比较长这个2375端口容易被种病毒，我曾中过】
+
+![image-20230727155930431](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2023/7/202307271559539.png)  
 
 **步骤一：开启服务器上docker的2375端口监听**
 

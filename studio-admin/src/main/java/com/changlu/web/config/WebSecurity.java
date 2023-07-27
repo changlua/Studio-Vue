@@ -47,7 +47,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/captchaImage","/api/common/**","/profile/*").permitAll()  //放行验证码接口
-                .antMatchers(HttpMethod.POST, "/api/login","/api/register").permitAll()  //放行登录接口
+                .antMatchers(HttpMethod.POST, "/api/login","/api/register","/studio/static/*").permitAll()  //放行登录接口
                 .antMatchers(HttpMethod.OPTIONS, "/api/*").permitAll()  //放行预检接口
                 .anyRequest().authenticated()
                 .and()

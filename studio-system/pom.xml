@@ -53,7 +53,6 @@
         <dependency>
             <groupId>com.changlu</groupId>
             <artifactId>studio-common</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
     </dependencies>
