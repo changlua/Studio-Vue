@@ -30,7 +30,7 @@
 - 感谢 [RUOYI](https://gitee.com/y_project/RuoYi) 提供的后台管理系统模板以及后台路由、权限管理。【项目功能引用了若依的角色、菜单管理】
 - 感谢项目logo：[来源网站地址](https://www.flaticon.com/search?word=deer)、作者[Hery Mery](https://www.flaticon.com/authors/hery-mery)
 
-**Studio-Vue演示地址**：http://codercl.cn/
+**Studio-Vue演示地址**：https://www.codercl.cn/
 
 + 用户名：admin  密码：123
 
@@ -446,6 +446,18 @@ tcp://192.168.3.83:2375
 
 ### 3、启动最终服务（studio-admin、nginx服务）
 
+#### https（若是要使用https的配置我们需要将）
+
+我们需要自己将/mydata目录中的nginx/conf.d配置文件下的配置文件替换为这个：
+
+![image-20230811171155422](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2023/7/202308111711508.png)  
+
+默认在mydata目录下的是我们http配置。
+
+---
+
+#### http版本（没有ssl证书选择使用这个）
+
 ![image-20220925151551921](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151551921.png)  
 
 启动最终服务compose文件：
@@ -486,6 +498,7 @@ services:
     container_name: nginx
     ports:
       - 80:80
+      - 443:443
     volumes:
       - "/mydata/nginx/html:/usr/share/nginx/html"
       - "/mydata/nginx/logs:/var/log/nginx"
