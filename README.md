@@ -34,6 +34,8 @@
 
 + 用户名：admin  密码：123
 
+对应小程序端开源地址：[studio-wx（Gitee）](https://gitee.com/changluJava/studio-wx)、[studio-wx（Github）](https://github.com/changlua/studio-wx)
+
 # 项目介绍
 ## 项目演示
 
