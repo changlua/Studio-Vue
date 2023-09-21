@@ -29,7 +29,7 @@ public class IndexController {
     private IndexService indexService;
 
     @GetMapping("/counts")
-    @PreAuthorize("@ss.hasRole('member')")
+//    @PreAuthorize("@ss.hasRole('member')")
     public ResponseResult getCounts(){
         List<Integer> counts = indexService.getCounts();
         return ResponseResult.success(counts);
@@ -37,7 +37,7 @@ public class IndexController {
 
 
     @GetMapping("/options")
-    @PreAuthorize("@ss.hasRole('member')")
+//    @PreAuthorize("@ss.hasRole('member')")
     public ResponseResult getOptions(){
         Map<String, Object> options = indexService.getOptions();
         return ResponseResult.success(options);
