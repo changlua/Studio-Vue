@@ -56,7 +56,7 @@ uploadOption:
 backup:
   sql:
     dataBackupPath: /tmp/static
-    host: db
+    host: mysql
     port: 3306
     username: root
     password: 123456

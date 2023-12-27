@@ -285,6 +285,10 @@ npm run dev
 
 见这篇博客：[docker-compose快速入门及实战](https://blog.csdn.net/cl939974883/article/details/126463806?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22126463806%22%2C%22source%22%3A%22cl939974883%22%7D)
 
+**对应的docker-compose文件已上传docker-compose目录**：
+
+![image-20231227173728751](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2023/9/image-20231227173728751.png)  
+
 ---
 
 ### 1、启动基础服务（mysql、redis）
