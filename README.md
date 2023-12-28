@@ -193,6 +193,14 @@ API文档：https://www.apifox.cn/apidoc/shared-456aee99-6931-48e5-bdd4-89c012d0
 
 # 快速开始
 
+## 版本2下载位置
+
+[tags](https://gitee.com/changluJava/studio-vue/tags)
+
+![image-20231226205753078](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2023/9/image-20231226205753078.png)
+
+---
+
 ## 本地运行（v1.2版本）
 
 > 本地环境
@@ -267,9 +275,9 @@ npm run dev
 
 ![image-20220925151128111](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2022/9/image-20220925151128111.png)
 
-云服务器开启多个端口：实际最终只开放一个端口，其他端口仅仅是在过程中会需要开放一下用来测试
+  云服务器开启多个端口(如下)：实际最终只开放一个端口，其他端口仅仅是在过程中会需要开放一下用来测试
 
-![image-20230727155703362](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2023/7/202307271557531.png)  
+![image-20231228083358803](https://pictured-bed.oss-cn-beijing.aliyuncs.com/img/2023/9/image-20231228083358803.png) 
 
 ---
 

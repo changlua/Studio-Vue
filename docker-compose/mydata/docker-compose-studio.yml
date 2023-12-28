@@ -22,6 +22,7 @@ services:
     container_name: nginx
     ports:
       - 80:80
+      - 443:443
     volumes:
       - "/mydata/nginx/html:/usr/share/nginx/html"
       - "/mydata/nginx/logs:/var/log/nginx"
