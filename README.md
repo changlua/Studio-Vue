@@ -613,7 +613,13 @@ admin  123
 
 # 日志
 
+2023.12.28：解决了https部署的443映射问题，docker-compose文件的映射443端口nginx未设置
+
+2023.12.27：修改原先生产配置文件的mysql容器名问题，重新提交tags 1.2.0标签
+
 2023.7.27：修改studio-vue 1.2版本部署部分问题，包含图片上传后访问不了、Linux服务器部署。
+
+2022.10.20：提交v1.2.0版本（支持docker-compose部署）。
 
 2022.9.25：docker-compose文件来替换docker命令，更新README.md中Linux服务器部署章节。
 
