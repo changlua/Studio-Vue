@@ -34,6 +34,8 @@
 
 + 用户名：admin  密码：123
 
+项目部署上线完整教程：[Studio-Vue校园实验室系统(SpringBoot+Vue)部署上线保姆级教程](https://www.bilibili.com/video/BV1R64y1J7gW/?spm_id_from=333.999.0.0&vd_source=b19269a4ae00481d5ff13d1897127b8b)
+
 对应小程序端开源地址：[studio-wx（Gitee）](https://gitee.com/changluJava/studio-wx)、[studio-wx（Github）](https://github.com/changlua/studio-wx)
 
 # 项目介绍
